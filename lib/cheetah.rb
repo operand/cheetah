@@ -1,0 +1,3 @@
+module Cheetah
+  # Your code goes here...
+end
