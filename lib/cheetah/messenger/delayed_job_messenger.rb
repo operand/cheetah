@@ -1,3 +1,5 @@
+require 'cheetah/messenger/messenger'
+
 class DelayedJobMessenger < Messenger
   def send(message)
     priority = (Time.now.usec % 8 + 1)
