@@ -1,41 +1,16 @@
 require 'cheetah/exception'
 require 'cheetah/message'
-require 'cheetah/messenger'
+Dir["cheetah/messenger/**/*.rb"].each {|f| require f}
 
 module Cheetah
 
   # determines if and how to send based on configuration
   def self.send(message)
-    raise "not finished yet!"
-
-    if params['email'] =~ CM_WHITELIST_FILTER
-      params['test'] = "1" # this makes it so tracking is disabled if we're not sending from production
-    end
-
-
-
-
-    case mode
-    when 'production'
-      # do it later
-      Delayed::Job.enqueue Delayed::PerformableMethod.new(self, :do_request, [ path, params ]), priority
-    when 'staging'
-      # do it later
-      params['test'] = "1" # this makes it so tracking is disabled if we're not sending from production
-      Delayed::Job.enqueue Delayed::PerformableMethod.new(self, :do_request, [ path, params ]), priority
-    when 'development'
-      # do it right away, with filtering
-      if params['email'] =~ CM_TEST_WHITELIST_FILTER
-        params['test'] = "1" # this makes it so tracking is disabled if we're not sending from production
-        do_request(path, params)
-      else
-        log "[SUPPRESSED due to whitelist] request to path '#{path}' with params #{params.inspect}"
-      end
-    when 'test'
-      # do nothing and log it
-      log "[SUPPRESSED due to test mode] request to path '#{path}' with params #{params.inspect}"
+    if CM_WHITELIST_FILTER and params['email'] =~ CM_WHITELIST_FILTER
+      params['test'] = "1" if CM_ENABLE_TRACKING
+      CM_MESSENGER.instance.send(message)
     else
-      raise "Could not determine mode for sending email. Please start your server with the RAILS_ENV environment variable set to 'production', 'staging', 'development', or 'test'."
+      log "[SUPPRESSED due to whitelist] request to path '#{path}' with params #{params.inspect}"
     end
   end
 
