@@ -2,20 +2,6 @@ Dir["#{File.dirname(__FILE__)}/cheetah/**/*.rb"].each {|f| require f}
 
 module Cheetah
 
-  # determines if and how to send based on configuration
-  def self.send(message)
-    if CM_WHITELIST_FILTER and params['email'] =~ CM_WHITELIST_FILTER
-      params['test'] = "1" if CM_ENABLE_TRACKING
-      CM_MESSENGER.instance.send(message)
-    else
-      log "[SUPPRESSED due to whitelist] request to path '#{path}' with params #{params.inspect}"
-    end
-  end
-
-  ##############################################################################
-  public # ok, something to see here :)
-  ##############################################################################
-
   def self.send_email(eid, email, params = {})
     path = "/ebm/ebmtrigger1"
     params['eid']   = eid
@@ -49,4 +35,17 @@ module Cheetah
     params['email'] = email
     self.send(Message.new(path, params))
   end
+
+  private #####################################################################
+
+  # determines if and how to send based on configuration
+  def self.send(message)
+    if CM_WHITELIST_FILTER and params['email'] =~ CM_WHITELIST_FILTER
+      params['test'] = "1" if CM_ENABLE_TRACKING
+      CM_MESSENGER.instance.send(message)
+    else
+      log "[SUPPRESSED due to whitelist] request to path '#{path}' with params #{params.inspect}"
+    end
+  end
+
 end

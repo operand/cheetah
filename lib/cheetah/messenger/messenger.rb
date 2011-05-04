@@ -77,9 +77,4 @@ class Messenger
     end
   end
 
-  def log(msg)
-    @@log ||= Logger.new("log/cheetah.log")
-    @@log.info("[#{Time.now}]: #{msg}") rescue nil
-  end
-
 end
