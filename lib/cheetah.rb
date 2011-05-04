@@ -25,17 +25,6 @@ module Cheetah
     self.send(Message.new(path, params))
   end
 
-  # This returns a users information as it appears in Cheetah's database.
-  # No use yet for this as of now, other than for testing.
-  # Also, it's unfinished.
-  def self.get_user(email)
-    raise "not implemented yet!"
-    path = "/api/getuser1"
-    params          = {}
-    params['email'] = email
-    self.send(Message.new(path, params))
-  end
-
   private #####################################################################
 
   # determines if and how to send based on configuration

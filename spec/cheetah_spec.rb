@@ -17,10 +17,6 @@ describe Cheetah do
     it "should blah"
   end
 
-  context '.get_user' do
-    it "should blah"
-  end
-
   context '.send' do
     it "should blah"
   end
