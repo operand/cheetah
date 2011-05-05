@@ -4,7 +4,7 @@ describe Cheetah do
 
 
   context '.send_email' do
-    before(:each) do
+    before do
       @eid    = :foo
       @email  = 'foo@buywithme.com'
       @params = {
@@ -30,7 +30,7 @@ describe Cheetah do
   end
 
   context '.mailing_list_update' do
-    before(:each) do
+    before do
       @api = '/api/setuser1'
     end
 
@@ -47,7 +47,19 @@ describe Cheetah do
   end
 
   context '.mailing_list_email_change' do
-    it "should should send a message to the setuser api with the old and new emails"
+    before do
+      @api = '/api/setuser1'
+    end
+
+    it "should should send a message to the setuser api with the old and new emails" do
+      params             = {}
+      params['email']    = 'foo@buywithme.com'
+      params['newemail'] = 'foo2@buywithme.com'
+      message = Message.new(@api, params)
+      Message.should_receive(:new).with(@api, params).and_return(message)
+      CM_MESSENGER.instance.should_receive(:send).with(message)
+      Cheetah.mailing_list_email_change('foo@buywithme.com', 'foo2@buywithme.com')
+    end
   end
 end
 
