@@ -18,8 +18,7 @@ module Cheetah
       begin
         login unless @cookie
         initheader = {'Cookie' => @cookie || ''}
-        params['aid'] = CM_AID
-      debugger
+        message.params['aid'] = CM_AID
         resp = do_post(message.path, message.params, initheader)
       rescue CheetahAuthorizationException => e
         # it may be that the cookie is stale. clear it and immediately retry. 

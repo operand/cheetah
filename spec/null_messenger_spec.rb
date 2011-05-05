@@ -1,5 +1,7 @@
 require 'spec_helper'
 
 describe Cheetah::NullMessenger do
-  it "should do nothing"
+  context "#send" do
+    it "should do nothing"
+  end
 end
