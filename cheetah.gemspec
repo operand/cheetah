@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = ["theoperand@gmail.com"]
   s.homepage    = ""
   s.summary     = %q{A simple library for integrating with the CheetahMail API}
-  s.description = %q{A simple library for integrating with the CheetahMail API. Still at an early stage.}
+  s.description = %q{A simple library for integrating with the CheetahMail API}
 
   s.rubyforge_project = "cheetah"
 
