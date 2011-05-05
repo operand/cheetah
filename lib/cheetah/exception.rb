@@ -1,11 +1,14 @@
 class CheetahException < Exception
 end
 
-class CheetahAuthorizationException < CheetahException
+class CheetahMessagingException < CheetahException
 end
 
-class CheetahTemporaryException < CheetahException
+class CheetahAuthorizationException < CheetahMessagingException
 end
 
-class CheetahPermanentException < CheetahException
+class CheetahTemporaryException < CheetahMessagingException
+end
+
+class CheetahPermanentException < CheetahMessagingException
 end

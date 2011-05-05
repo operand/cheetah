@@ -1,3 +1,6 @@
+require 'cheetah/message'
+require 'cheetah/exception'
+require 'cheetah/messenger/messenger'
 Dir["#{File.dirname(__FILE__)}/cheetah/**/*.rb"].each {|f| require f}
 
 module Cheetah
@@ -29,11 +32,11 @@ module Cheetah
 
   # determines if and how to send based on configuration
   def self.send(message)
-    if CM_WHITELIST_FILTER and params['email'] =~ CM_WHITELIST_FILTER
-      params['test'] = "1" if CM_ENABLE_TRACKING
+    if CM_WHITELIST_FILTER and message.params['email'] =~ CM_WHITELIST_FILTER
+      message.params['test'] = "1" if CM_ENABLE_TRACKING
       CM_MESSENGER.instance.send(message)
     else
-      log "[SUPPRESSED due to whitelist] request to path '#{path}' with params #{params.inspect}"
+      #log "[SUPPRESSED due to whitelist] request to path '#{message.path}' with params #{message.params.inspect}"
     end
   end
 
