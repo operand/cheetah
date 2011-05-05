@@ -1,3 +1,6 @@
+require 'active_record'
+require 'delayed_job'
+
 module Cheetah
   class DelayedJobMessenger < Messenger
     def send(message)
