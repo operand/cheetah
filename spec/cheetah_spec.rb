@@ -2,17 +2,15 @@ require 'spec_helper'
 
 describe Cheetah do
 
-  before(:each) do
-    @eid    = :foo
-    @email  = 'foo@buywithme.com'
-    @params = {
-      'eid'   => @eid,
-      'email' => @email,
-    }
-  end
 
   context '.send_email' do
-    before do
+    before(:each) do
+      @eid    = :foo
+      @email  = 'foo@buywithme.com'
+      @params = {
+        'eid'   => @eid,
+        'email' => @email,
+      }
       @message = Message.new('/ebm/ebmtrigger1', @params)
     end
 
@@ -32,15 +30,24 @@ describe Cheetah do
   end
 
   context '.mailing_list_update' do
-    it "should blah"
+    before(:each) do
+      @api = '/api/setuser1'
+    end
+
+    it "should should send a message to the setuser api" do
+      params          = {}
+      params['sub']   = '123'
+      params['email'] = 'foo@buywithme.com'
+      params['a']     = 1
+      message = Message.new(@api, params)
+      Message.should_receive(:new).with(@api, params).and_return(message)
+      CM_MESSENGER.instance.should_receive(:send).with(message)
+      Cheetah.mailing_list_update('123', 'foo@buywithme.com')
+    end
   end
 
   context '.mailing_list_email_change' do
-    it "should blah"
-  end
-
-  context '.send' do
-    it "should blah"
+    it "should should send a message to the setuser api with the old and new emails"
   end
 end
 
