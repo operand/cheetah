@@ -31,12 +31,15 @@ module Cheetah
   private #####################################################################
 
   # determines if and how to send based on configuration
+  # returns true if the message was sent
+  # false if it was suppressed
   def self.send(message)
     if CM_WHITELIST_FILTER and message.params['email'] =~ CM_WHITELIST_FILTER
       message.params['test'] = "1" if CM_ENABLE_TRACKING
       CM_MESSENGER.instance.send(message)
+      true
     else
-      #log "[SUPPRESSED due to whitelist] request to path '#{message.path}' with params #{message.params.inspect}"
+      false
     end
   end
 
