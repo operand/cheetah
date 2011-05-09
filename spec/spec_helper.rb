@@ -10,6 +10,7 @@ CM_WHITELIST_FILTER = /@buywithme\.com$/     # if set, emails will only be sent 
 CM_ENABLE_TRACKING  = false                  # determines whether cheetahmail will track the sending of emails for statistical purposes. this should be disabled outside of production 
 CM_MESSENGER        = Cheetah::NullMessenger # the class used for sending api requests to cheetahmail.
 
+Delayed::Worker.backend = :active_record # this is apparently needed to avoid a bug in delayed job
 
 Spec::Runner.configure do |config|                                                                                                                        
   config.before(:each) do
