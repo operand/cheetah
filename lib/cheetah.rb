@@ -9,7 +9,7 @@ module Cheetah
     path = "/ebm/ebmtrigger1"
     params['eid']   = eid
     params['email'] = email
-    self.send(Message.new(path, params))
+    self.do_send(Message.new(path, params))
   end
 
   def self.mailing_list_update(sub_id, email, params = {})
@@ -17,7 +17,7 @@ module Cheetah
     params['sub']   = sub_id
     params['email'] = email
     params['a']     = 1 # this makes it so that the subscriptions passed in the call are used as the users complete set of subscriptions
-    self.send(Message.new(path, params))
+    self.do_send(Message.new(path, params))
   end
 
   def self.mailing_list_email_change(oldemail, newemail)
@@ -25,7 +25,7 @@ module Cheetah
     params             = {}
     params['email']    = oldemail
     params['newemail'] = newemail
-    self.send(Message.new(path, params))
+    self.do_send(Message.new(path, params))
   end
 
   private #####################################################################
@@ -33,10 +33,10 @@ module Cheetah
   # determines if and how to send based on configuration
   # returns true if the message was sent
   # false if it was suppressed
-  def self.send(message)
+  def self.do_send(message)
     if CM_WHITELIST_FILTER and message.params['email'] =~ CM_WHITELIST_FILTER
       message.params['test'] = "1" if CM_ENABLE_TRACKING
-      CM_MESSENGER.instance.send(message)
+      CM_MESSENGER.instance.do_send(message)
       true
     else
       false

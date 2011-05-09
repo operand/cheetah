@@ -16,7 +16,7 @@ describe Cheetah do
 
     it "should send a Message object to the messenger instance" do
       Message.should_receive(:new).with('/ebm/ebmtrigger1', @params).and_return(@message)
-      CM_MESSENGER.instance.should_receive(:send).with(@message)
+      CM_MESSENGER.instance.should_receive(:do_send).with(@message)
       Cheetah.send_email(@eid, @email)
     end
 
@@ -24,7 +24,7 @@ describe Cheetah do
       @email = 'foo@bar.com'
       @params['email'] = @email
       Message.should_receive(:new).with('/ebm/ebmtrigger1', @params).and_return(@message)
-      CM_MESSENGER.instance.should_not_receive(:send)
+      CM_MESSENGER.instance.should_not_receive(:do_send)
       Cheetah.send_email(@eid, @email)
     end
   end
@@ -41,7 +41,7 @@ describe Cheetah do
       params['a']     = 1
       message = Message.new(@api, params)
       Message.should_receive(:new).with(@api, params).and_return(message)
-      CM_MESSENGER.instance.should_receive(:send).with(message)
+      CM_MESSENGER.instance.should_receive(:do_send).with(message)
       Cheetah.mailing_list_update('123', 'foo@buywithme.com')
     end
   end
@@ -57,7 +57,7 @@ describe Cheetah do
       params['newemail'] = 'foo2@buywithme.com'
       message = Message.new(@api, params)
       Message.should_receive(:new).with(@api, params).and_return(message)
-      CM_MESSENGER.instance.should_receive(:send).with(message)
+      CM_MESSENGER.instance.should_receive(:do_send).with(message)
       Cheetah.mailing_list_email_change('foo@buywithme.com', 'foo2@buywithme.com')
     end
   end

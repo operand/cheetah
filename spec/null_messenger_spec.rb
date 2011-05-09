@@ -5,7 +5,7 @@ describe Cheetah::NullMessenger do
     it "should do nothing" do
       @http = mock(:http)
       Net::HTTP.stub(:new).and_return(@http)
-      Cheetah::NullMessenger.instance.send(Message.new("/",{}))
+      Cheetah::NullMessenger.instance.do_send(Message.new("/",{}))
     end
   end
 end

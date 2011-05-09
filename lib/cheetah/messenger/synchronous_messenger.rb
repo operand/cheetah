@@ -1,6 +1,6 @@
 module Cheetah
   class SynchronousMessenger < Messenger
-    def send(message)
+    def do_send(message)
       do_request(message)
     end
   end

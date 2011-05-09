@@ -1,6 +1,6 @@
 module Cheetah
   class NullMessenger < Messenger
-    def send(message)
+    def do_send(message)
       # do nothing
     end
   end

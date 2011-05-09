@@ -14,29 +14,29 @@ describe Cheetah::SynchronousMessenger do
 
     it "should send a http post" do
       @http.should_receive(:post)
-      @messenger.send(@message)
+      @messenger.do_send(@message)
     end
 
     it "should raise CheetahPermanentException when there's an authorization problem" do
       @resp.stub(:code).and_return('200')
       @resp.stub(:body).and_return('err:auth')
-      lambda { @messenger.send(@message) }.should raise_error(CheetahPermanentException)
+      lambda { @messenger.do_send(@message) }.should raise_error(CheetahPermanentException)
     end
 
     it "should raise CheetahPermanentException when there's a permanent error on Cheetah's end" do
       @resp.stub(:code).and_return('400')
-      lambda { @messenger.send(@message) }.should raise_error(CheetahPermanentException)
+      lambda { @messenger.do_send(@message) }.should raise_error(CheetahPermanentException)
     end
 
     it "should raise CheetahTemporaryException when there's a temporary error on Cheetah's end" do
       @resp.stub(:code).and_return('500')
-      lambda { @messenger.send(@message) }.should raise_error(CheetahTemporaryException)
+      lambda { @messenger.do_send(@message) }.should raise_error(CheetahTemporaryException)
     end
 
     it "should raise CheetahTemporaryException when there's a temporary error on Cheetah's end" do
       @resp.stub(:code).and_return('200')
       @resp.stub(:body).and_return('err:internal error')
-      lambda { @messenger.send(@message) }.should raise_error(CheetahTemporaryException)
+      lambda { @messenger.do_send(@message) }.should raise_error(CheetahTemporaryException)
     end
 
   end

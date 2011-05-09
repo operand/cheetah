@@ -7,13 +7,8 @@ module Cheetah
   class Messenger
     include Singleton
 
-    private #####################################################################
-
-    def initialize
-      @cookie = nil
-    end
-
     # handles sending the request and processing any exceptions
+    # needs to be public for delayed worker to call it
     def do_request(message)
       begin
         login unless @cookie
@@ -26,6 +21,12 @@ module Cheetah
         @cookie = nil
         retry
       end
+    end
+
+    private #####################################################################
+
+    def initialize
+      @cookie = nil
     end
 
     # actually sends the request and raises any exceptions

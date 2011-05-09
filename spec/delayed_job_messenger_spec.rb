@@ -7,7 +7,7 @@ describe Cheetah::DelayedJobMessenger do
       Delayed::PerformableMethod.stub(:new)
       Delayed::Job.stub(:enqueue)
       Delayed::Job.should_receive(:enqueue)
-      Cheetah::DelayedJobMessenger.instance.send(Message.new("/",{}))
+      Cheetah::DelayedJobMessenger.instance.do_send(Message.new("/",{}))
     end
   end
 end
