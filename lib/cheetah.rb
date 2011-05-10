@@ -16,7 +16,7 @@ module Cheetah
     path = "/api/setuser1"
     params['sub']   = sub_id
     params['email'] = email
-    params['a']     = 1 # this makes it so that the subscriptions passed in the call are used as the users complete set of subscriptions
+    #params['a']     = 1 # this makes it so that the subscriptions passed in the call are used as the users complete set of subscriptions
     self.do_send(Message.new(path, params))
   end
 
