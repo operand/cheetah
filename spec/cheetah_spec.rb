@@ -6,7 +6,7 @@ describe Cheetah do
   context '.send_email' do
     before do
       @eid    = :foo
-      @email  = 'foo@buywithme.com'
+      @email  = 'foo@test.com'
       @params = {
         'eid'   => @eid,
         'email' => @email,
@@ -37,12 +37,12 @@ describe Cheetah do
     it "should should send a message to the setuser api" do
       params          = {}
       params['sub']   = '123'
-      params['email'] = 'foo@buywithme.com'
+      params['email'] = 'foo@test.com'
       #params['a']     = 1
       message = Message.new(@api, params)
       Message.should_receive(:new).with(@api, params).and_return(message)
       CM_MESSENGER.instance.should_receive(:do_send).with(message)
-      Cheetah.mailing_list_update('123', 'foo@buywithme.com')
+      Cheetah.mailing_list_update('123', 'foo@test.com')
     end
   end
 
@@ -53,12 +53,12 @@ describe Cheetah do
 
     it "should should send a message to the setuser api with the old and new emails" do
       params             = {}
-      params['email']    = 'foo@buywithme.com'
-      params['newemail'] = 'foo2@buywithme.com'
+      params['email']    = 'foo@test.com'
+      params['newemail'] = 'foo2@test.com'
       message = Message.new(@api, params)
       Message.should_receive(:new).with(@api, params).and_return(message)
       CM_MESSENGER.instance.should_receive(:do_send).with(message)
-      Cheetah.mailing_list_email_change('foo@buywithme.com', 'foo2@buywithme.com')
+      Cheetah.mailing_list_email_change('foo@test.com', 'foo2@test.com')
     end
   end
 end
