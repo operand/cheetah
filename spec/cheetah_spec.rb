@@ -38,7 +38,7 @@ describe Cheetah do
       params          = {}
       params['sub']   = '123'
       params['email'] = 'foo@buywithme.com'
-      params['a']     = 1
+      #params['a']     = 1
       message = Message.new(@api, params)
       Message.should_receive(:new).with(@api, params).and_return(message)
       CM_MESSENGER.instance.should_receive(:do_send).with(message)

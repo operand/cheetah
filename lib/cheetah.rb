@@ -1,7 +1,7 @@
 require 'cheetah/message'
 require 'cheetah/exception'
 require 'cheetah/messenger/messenger'
-Dir["#{File.dirname(__FILE__)}/cheetah/**/*.rb"].each {|f| require f}
+Dir["#{File.dirname(__FILE__)}/cheetah/messenger/*.rb"].each {|f| require f}
 
 module Cheetah
 
@@ -26,6 +26,20 @@ module Cheetah
     params['email']    = oldemail
     params['newemail'] = newemail
     self.do_send(Message.new(path, params))
+  end
+
+  # this provides a mapping of the unsubscribe reason codes that cheetah uses in their unsubscribe report to the description for each code
+  def self.unsub_reason(code)
+    {
+      'a'	=> 'abuse complaint',
+      'b'	=> 'persistent bounces',
+      'd'	=> 'deleted via admin interface',
+      'e'	=> 'email to remove address (from mailing)',
+      'i'	=> 'request via api',
+      'k'	=> 'bulk unsubscribe',
+      'r'	=> 'request in reply to mailing',
+      'w'	=> 'web-based unsubscribe (link from mailing)',
+    }[code]
   end
 
   private #####################################################################
