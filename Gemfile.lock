@@ -1,0 +1,27 @@
+PATH
+  remote: .
+  specs:
+    cheetah (0.0.3)
+
+GEM
+  remote: http://rubygems.org/
+  remote: http://gems.github.com/
+  specs:
+    diff-lcs (1.1.2)
+    rspec (2.6.0)
+      rspec-core (~> 2.6.0)
+      rspec-expectations (~> 2.6.0)
+      rspec-mocks (~> 2.6.0)
+    rspec-core (2.6.4)
+    rspec-expectations (2.6.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.6.0)
+    tobi-delayed_job (1.7.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cheetah!
+  rspec
+  tobi-delayed_job (= 1.7.0)
