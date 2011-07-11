@@ -12,10 +12,15 @@ describe Cheetah do
         'email' => @email,
       }
       @message = Message.new('/ebm/ebmtrigger1', @params)
+      Message.should_receive(:new).with('/ebm/ebmtrigger1', @params).and_return(@message)
+    end
+
+    it 'should send' do
+      Cheetah.should_receive(:do_send).with(@message)
+      Cheetah.send_email(@eid, @email)
     end
 
     it "should send a Message object to the messenger instance" do
-      Message.should_receive(:new).with('/ebm/ebmtrigger1', @params).and_return(@message)
       CM_MESSENGER.instance.should_receive(:do_send).with(@message)
       Cheetah.send_email(@eid, @email)
     end
@@ -23,8 +28,13 @@ describe Cheetah do
     it "should suppress emails that do not match the whitelist" do
       @email = 'foo@bar.com'
       @params['email'] = @email
-      Message.should_receive(:new).with('/ebm/ebmtrigger1', @params).and_return(@message)
       CM_MESSENGER.instance.should_not_receive(:do_send)
+      Cheetah.send_email(@eid, @email)
+    end
+
+    it 'should set the test parameter unless CM_ENABLE_TRACKING is true' do
+      CM_ENABLE_TRACKING.should be_false # after all this is in test mode
+      @message.params.should_receive(:[]=).with('test', '1')
       Cheetah.send_email(@eid, @email)
     end
   end
@@ -38,7 +48,6 @@ describe Cheetah do
       params          = {}
       params['sub']   = '123'
       params['email'] = 'foo@test.com'
-      #params['a']     = 1
       message = Message.new(@api, params)
       Message.should_receive(:new).with(@api, params).and_return(message)
       CM_MESSENGER.instance.should_receive(:do_send).with(message)

@@ -13,4 +13,3 @@ CM_MESSENGER        = Cheetah::NullMessenger  # the class used for sending api r
 # block http requests
 require 'fakeweb'
 FakeWeb.allow_net_connect = false
-
