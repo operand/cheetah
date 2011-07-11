@@ -49,7 +49,7 @@ module Cheetah
   # false if it was suppressed
   def self.do_send(message)
     if CM_WHITELIST_FILTER and message.params['email'] =~ CM_WHITELIST_FILTER
-      message.params['test'] = "1" if CM_ENABLE_TRACKING
+      message.params['test'] = "1" unless CM_ENABLE_TRACKING
       CM_MESSENGER.instance.do_send(message)
       true
     else

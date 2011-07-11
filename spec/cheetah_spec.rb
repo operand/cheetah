@@ -42,7 +42,7 @@ describe Cheetah do
       message = Message.new(@api, params)
       Message.should_receive(:new).with(@api, params).and_return(message)
       CM_MESSENGER.instance.should_receive(:do_send).with(message)
-      Cheetah.mailing_list_update('123', 'foo@test.com')
+      Cheetah.mailing_list_update('foo@test.com', params)
     end
   end
 
