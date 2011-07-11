@@ -32,10 +32,32 @@ describe Cheetah do
       Cheetah.send_email(@eid, @email)
     end
 
-    it 'should set the test parameter unless CM_ENABLE_TRACKING is true' do
-      CM_ENABLE_TRACKING.should be_false # after all this is in test mode
-      @message.params.should_receive(:[]=).with('test', '1')
-      Cheetah.send_email(@eid, @email)
+    context "with CM_ENABLE_TRACKING set to true" do
+      before do
+        verbose = $VERBOSE
+        $VERBOSE = nil
+        CM_ENABLE_TRACKING = true
+        $VERBOSE = verbose
+      end
+
+      it 'should not set the test parameter' do
+        @message.params.should_not_receive(:[]=).with('test', '1')
+        Cheetah.send_email(@eid, @email)
+      end
+    end
+
+    context "with CM_ENABLE_TRACKING set to false" do
+      before do
+        verbose = $VERBOSE
+        $VERBOSE = nil
+        CM_ENABLE_TRACKING = false
+        $VERBOSE = verbose
+      end
+
+      it 'should set the test parameter' do
+        @message.params.should_receive(:[]=).with('test', '1')
+        Cheetah.send_email(@eid, @email)
+      end
     end
   end
 
