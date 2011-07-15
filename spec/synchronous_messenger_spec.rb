@@ -8,14 +8,13 @@ describe Cheetah::SynchronousMessenger do
       :username         => "foo_user",
       :password         => "foo",
       :aid              => "123",
-      :whitelist_filter => /@test\.com$/,
       :enable_tracking  => false,
     }
     @messenger = Cheetah::SynchronousMessenger.new(@options)
     stub_http
   end
 
-  context ".do_send" do
+  context "#do_send" do
     before do
       @message   = Message.new("/",{})
       @resp      = mock(:resp).as_null_object
@@ -40,7 +39,7 @@ describe Cheetah::SynchronousMessenger do
       lambda { @messenger.do_send(@message) }.should raise_error(CheetahPermanentException)
     end
 
-    it "should raise CheetahTemporaryException when there's a temporary error on Cheetah's end" do
+    it "should raise CheetahTemporaryException when there's a temporary (server) error on Cheetah's end" do
       @resp.stub(:code).and_return('500')
       lambda { @messenger.do_send(@message) }.should raise_error(CheetahTemporaryException)
     end
@@ -52,55 +51,69 @@ describe Cheetah::SynchronousMessenger do
     end
   end
 
-  context '.send_message' do
+  context '#send_message' do
     before do
       @params = {'email' => 'foo@test.com'}
       @message = Message.new('/', @params)
     end
 
-    context 'with a whitelist filter' do
-      before do
-        @params[:whitelist_filter] = /test\.com$/
-          @message = Message.new('/', @params)
-      end
+    it 'should send' do
+      @messenger.should_receive(:do_send).with(@message)
+      @messenger.send_message(@message)
     end
 
-    context 'with an email that matches the whitelist filter' do
-
-      it 'should send' do
-        @messenger.should_receive(:do_send).with(@message)
-        @messenger.send_message(@message)
+    context 'with a whitelist filter' do
+      before do
+        @options[:whitelist_filter] = /@test\.com$/
+        @messenger = Cheetah::SynchronousMessenger.new(@options)
+        @message   = Message.new('/', @params)
       end
 
-      it "should suppress emails that do not match the whitelist" do
-        email = 'foo@bar.com'
-        @message.params['email'] = email
-        @messenger.should_not_receive(:do_send)
-        @messenger.send_message(@message)
-      end
-
-      context "with :enable_tracking set to true" do
+      context 'and an email that does not match the whitelist filter' do
         before do
-          @options[:enable_tracking] = true
-          @messenger = Cheetah::SynchronousMessenger.new(@options)
+          @email = 'foo@bar.com'
         end
 
-        it 'should not set the test parameter' do
-          @message.params.should_not_receive(:[]=).with('test', '1')
+        it "should suppress the email" do
+          @message.params['email'] = @email
+          @messenger.should_not_receive(:do_send)
           @messenger.send_message(@message)
         end
       end
 
-      context "with :enable_tracking set to false" do
+      context 'with an email that matches the whitelist filter' do
         before do
-          @options[:enable_tracking] = false
-          @messenger = Cheetah::SynchronousMessenger.new(@options)
+          @email = 'foo@test.com'
         end
 
-        it 'should set the test parameter' do
-          @message.params.stub(:[]=)
-          @message.params.should_receive(:[]=).with('test', '1')
+        it 'should send' do
+          @messenger.should_receive(:do_send).with(@message)
           @messenger.send_message(@message)
+        end
+
+        context "with :enable_tracking set to true" do
+          before do
+            @options[:enable_tracking] = true
+            @messenger = Cheetah::SynchronousMessenger.new(@options)
+          end
+
+          it 'should not set the test parameter' do
+            @message.params.should_not_receive(:[]=).with('test', '1')
+            @messenger.send_message(@message)
+          end
+        end
+
+        context "with :enable_tracking set to false" do
+          before do
+            @options[:enable_tracking] = false
+            @messenger = Cheetah::SynchronousMessenger.new(@options)
+          end
+
+          it 'should set the test parameter' do
+            @message.params.stub(:[]=)
+            @message.params.should_receive(:[]=).with('test', '1')
+            @messenger.send_message(@message)
+          end
         end
       end
     end

@@ -12,6 +12,7 @@ describe Cheetah::ResqueMessenger do
       :enable_tracking  => false,
     }
     @messenger = Cheetah::ResqueMessenger.new(@options)
+    @message   = Message.new("/",{})
   end
 
   describe '#do_send' do
@@ -23,8 +24,8 @@ describe Cheetah::ResqueMessenger do
 
   describe '.perform' do
     it 'should immediately send a message to cheetah' do
-      Cheetah::Messenger.should_receive(:new).with(@options).and_return(@messenger)
-      @messenger.should_receive(:do_request).with(@message)
+      Cheetah::Messenger.should_receive(:new).with(@options).and_return(messenger = mock(:messenger))
+      messenger.should_receive(:do_request).with(@message)
       Cheetah::ResqueMessenger.perform(@message, @options)
     end
   end

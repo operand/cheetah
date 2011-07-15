@@ -16,7 +16,20 @@ describe Cheetah::Cheetah do
     @cheetah    = Cheetah::Cheetah.new(options)
   end
 
-  context '.mailing_list_update' do
+  context '#send_email' do
+    it 'should send a message to the ebmtrigger api' do
+      api             = '/ebm/ebmtrigger1'
+      params          = {}
+      params['eid']   = :foo
+      params['email'] = 'foo@test.com'
+      message         = Message.new(api, params)
+      Message.should_receive(:new).with(api, params).and_return(message)
+      @messenger.should_receive(:send_message).with(message)
+      @cheetah.send_email(:foo, 'foo@test.com')
+    end
+  end
+
+  context '#mailing_list_update' do
     before do
       @api = '/api/setuser1'
     end
@@ -32,7 +45,7 @@ describe Cheetah::Cheetah do
     end
   end
 
-  context '.mailing_list_email_change' do
+  context '#mailing_list_email_change' do
     before do
       @api = '/api/setuser1'
     end
