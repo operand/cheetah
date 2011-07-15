@@ -1,7 +1,9 @@
 PATH
   remote: .
   specs:
-    cheetah (0.0.3)
+    cheetah (0.0.4)
+      resque
+      system_timer
 
 GEM
   remote: http://rubygems.org/
@@ -52,7 +54,5 @@ DEPENDENCIES
   ZenTest
   cheetah!
   fakeweb
-  resque
   rspec
   ruby-debug
-  system_timer

@@ -2,19 +2,30 @@ require 'spec_helper'
 require 'resque'
 
 describe Cheetah::ResqueMessenger do
+  before do
+    @options = {
+      :host             => "foo.com",
+      :username         => "foo_user",
+      :password         => "foo",
+      :aid              => "123",
+      :whitelist_filter => /@test\.com$/,
+      :enable_tracking  => false,
+    }
+    @messenger = Cheetah::ResqueMessenger.new(@options)
+  end
+
   describe '#do_send' do
     it 'should queue up a job in resque' do
-      message = mock(:message)
-      Resque.should_receive(:enqueue).with(Cheetah::ResqueMessenger, message)
-      Cheetah::ResqueMessenger.instance.do_send(message)
+      Resque.should_receive(:enqueue).with(Cheetah::ResqueMessenger, @message, @options)
+      @messenger.do_send(@message)
     end
   end
 
   describe '.perform' do
     it 'should immediately send a message to cheetah' do
-      message = mock(:message)
-      Cheetah::ResqueMessenger.should_receive(:do_request).with(message)
-      Cheetah::ResqueMessenger.perform(message)
+      Cheetah::Messenger.should_receive(:new).with(@options).and_return(@messenger)
+      @messenger.should_receive(:do_request).with(@message)
+      Cheetah::ResqueMessenger.perform(@message, @options)
     end
   end
 end

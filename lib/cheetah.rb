@@ -4,31 +4,9 @@ require 'cheetah/messenger/messenger'
 Dir["#{File.dirname(__FILE__)}/cheetah/messenger/*.rb"].each {|f| require f}
 
 module Cheetah
+  class Cheetah
 
-  def self.send_email(eid, email, params = {})
-    path = "/ebm/ebmtrigger1"
-    params['eid']   = eid
-    params['email'] = email
-    self.do_send(Message.new(path, params))
-  end
-
-  def self.mailing_list_update(email, params = {})
-    path = "/api/setuser1"
-    params['email'] = email
-    self.do_send(Message.new(path, params))
-  end
-
-  def self.mailing_list_email_change(oldemail, newemail)
-    path = "/api/setuser1"
-    params             = {}
-    params['email']    = oldemail
-    params['newemail'] = newemail
-    self.do_send(Message.new(path, params))
-  end
-
-  # this provides a mapping of the unsubscribe reason codes that cheetah uses in their unsubscribe report to the description for each code
-  def self.unsub_reason(code)
-    {
+    UNSUB_REASON = {
       'a'	=> 'abuse complaint',
       'b'	=> 'persistent bounces',
       'd'	=> 'deleted via admin interface',
@@ -37,22 +15,42 @@ module Cheetah
       'k'	=> 'bulk unsubscribe',
       'r'	=> 'request in reply to mailing',
       'w'	=> 'web-based unsubscribe (link from mailing)',
-    }[code]
-  end
+    }
 
-  private #####################################################################
-
-  # determines if and how to send based on configuration
-  # returns true if the message was sent
-  # false if it was suppressed
-  def self.do_send(message)
-    if CM_WHITELIST_FILTER and message.params['email'] =~ CM_WHITELIST_FILTER
-      message.params['test'] = "1" unless CM_ENABLE_TRACKING
-      CM_MESSENGER.instance.do_send(message)
-      true
-    else
-      false
+    # options hash example (all fields are required, except whitelist_filter):
+    # {
+    #   :host             => 'ebm.cheetahmail.com'
+    #   :username         => 'foo_api_user'
+    #   :password         => '12345'
+    #   :aid              => '67890'                  # the 'affiliate id'
+    #   :whitelist_filter => //                       # if set, emails will only be sent to addresses which match this pattern
+    #   :enable_tracking  => true                     # determines whether cheetahmail will track the sending of emails for analytics purposes
+    #   :messenger        => Cheetah::ResqueMessenger
+    # }
+    def initialize(options)
+      @messenger = options[:messenger].new(options)
     end
-  end
 
+    def send_email(eid, email, params = {})
+      path = "/ebm/ebmtrigger1"
+      params['eid']   = eid
+      params['email'] = email
+      @messenger.send_message(Message.new(path, params))
+    end
+
+    def mailing_list_update(email, params = {})
+      path = "/api/setuser1"
+      params['email'] = email
+      @messenger.send_message(Message.new(path, params))
+    end
+
+    def mailing_list_email_change(oldemail, newemail)
+      path = "/api/setuser1"
+      params             = {}
+      params['email']    = oldemail
+      params['newemail'] = newemail
+      @messenger.send_message(Message.new(path, params))
+    end
+
+  end
 end
