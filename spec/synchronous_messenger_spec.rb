@@ -51,7 +51,7 @@ describe Cheetah::SynchronousMessenger do
     end
   end
 
-  context '#send_message' do
+  describe '#send_message' do
     before do
       @params = {'email' => 'foo@test.com'}
       @message = Message.new('/', @params)
