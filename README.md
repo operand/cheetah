@@ -10,6 +10,8 @@ But basically you create a Cheetah instance like so:
       :aid              => '67890',                  # the 'affiliate id'
       :whitelist_filter => //,                       # if set, emails will only be sent to addresses which match this pattern
       :enable_tracking  => true,                     # determines whether cheetahmail will track the sending of emails for analytics purposes
+      :enable_testing   => true,                     # determines
+whether or not non-production emails can be set (default is false)
       :messenger        => Cheetah::ResqueMessenger
     })
 
