@@ -93,7 +93,7 @@ describe Cheetah::SynchronousMessenger do
 
         context "with :enable_tracking set to true" do
           before do
-            @options[:enable_tracking] = true
+            @options[:enable_testing] = false
             @messenger = Cheetah::SynchronousMessenger.new(@options)
           end
 
@@ -103,9 +103,9 @@ describe Cheetah::SynchronousMessenger do
           end
         end
 
-        context "with :enable_tracking set to false" do
+        context "with :enable_testing set to false" do
           before do
-            @options[:enable_tracking] = false
+            @options[:enable_testing] = true
             @messenger = Cheetah::SynchronousMessenger.new(@options)
           end
 
