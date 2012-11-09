@@ -90,9 +90,9 @@ describe Cheetah::SynchronousMessenger do
           @messenger.send_message(@message)
         end
 
-        context "with :enable_testing set to true" do
+        context "with :enable_send_not_deployed set to true" do
           before do
-            @options[:enable_testing] = false
+            @options[:enable_send_not_deployed] = false
             @messenger = Cheetah::SynchronousMessenger.new(@options)
           end
 
@@ -102,9 +102,9 @@ describe Cheetah::SynchronousMessenger do
           end
         end
 
-        context "with :enable_testing set to false" do
+        context "with :enable_send_not_deployed set to false" do
           before do
-            @options[:enable_testing] = true
+            @options[:enable_send_not_deployed] = true
             @messenger = Cheetah::SynchronousMessenger.new(@options)
           end
 

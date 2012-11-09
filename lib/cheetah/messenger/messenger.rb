@@ -15,7 +15,7 @@ module Cheetah
     # false if it was suppressed
     def send_message(message)
       if !@options[:whitelist_filter] or message.params['email'] =~ @options[:whitelist_filter]
-        message.params['test'] = "1" if @options[:enable_testing]
+        message.params['test'] = "1" if @options[:enable_send_not_deployed]
         do_send(message) # implemented by the subclass
         true
       else
