@@ -24,7 +24,7 @@ module Cheetah
     #   :password         => '12345'
     #   :aid              => '67890'                  # the 'affiliate id'
     #   :whitelist_filter => //                       # if set, emails will only be sent to addresses which match this pattern
-    #   :enable_tracking  => true                     # determines whether cheetahmail will track the sending of emails for analytics purposes
+    #   :enable_testing  => true                      # if true, non-production emails can be set (default is false)
     #   :messenger        => Cheetah::ResqueMessenger
     # }
     def initialize(options)

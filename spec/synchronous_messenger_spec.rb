@@ -8,7 +8,6 @@ describe Cheetah::SynchronousMessenger do
       :username         => "foo_user",
       :password         => "foo",
       :aid              => "123",
-      :enable_tracking  => false,
     }
     @messenger = Cheetah::SynchronousMessenger.new(@options)
     stub_http
@@ -91,7 +90,7 @@ describe Cheetah::SynchronousMessenger do
           @messenger.send_message(@message)
         end
 
-        context "with :enable_tracking set to true" do
+        context "with :enable_testing set to true" do
           before do
             @options[:enable_testing] = false
             @messenger = Cheetah::SynchronousMessenger.new(@options)

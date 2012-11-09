@@ -8,7 +8,6 @@ describe Cheetah::Cheetah do
       :password         => "foo",
       :aid              => "123",
       :whitelist_filter => /@test\.com$/,
-      :enable_tracking  => false,
       :messenger        => Cheetah::NullMessenger,
     }
     @messenger  = mock(:messenger)
