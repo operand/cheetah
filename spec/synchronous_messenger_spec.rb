@@ -117,4 +117,12 @@ describe Cheetah::SynchronousMessenger do
       end
     end
   end
+
+  describe '#do_request' do
+    it 'should only allow three tries before failing' do
+      @messenger.instance_variable_set(:@cookie, nil)
+      @messenger.should_receive(:login).exactly(3).times.and_raise(CheetahAuthorizationException)
+      expect { @messenger.do_request(@message_hash) }.to raise_error(CheetahTooManyTriesException)
+    end
+  end
 end

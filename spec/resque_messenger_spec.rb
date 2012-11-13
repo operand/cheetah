@@ -28,4 +28,24 @@ describe Cheetah::ResqueMessenger do
       Cheetah::ResqueMessenger.perform(@message, @options)
     end
   end
+
+  describe '#do_request' do
+    before do
+      @message_hash = { 'path' => '/', 'params' => { 'aid' => 123 } }
+    end
+
+    it 'should use a hash representation of the message' do
+      @messenger.instance_variable_set(:@cookie, 'cookie') # Set cookie to avoid login
+      @messenger.should_receive(:do_post).with('/', {'aid' => '123'}, {'Cookie' => 'cookie'}).and_return(nil)
+      @messenger.do_request(@message_hash)
+    end
+
+    it 'should only allow three tries before failing' do
+      @messenger = Cheetah::ResqueMessenger.new(@options)
+      @messenger.instance_variable_set(:@cookie, nil)
+      @messenger.should_receive(:login).exactly(3).times.and_raise(CheetahAuthorizationException)
+      expect { @messenger.do_request(@message_hash) }.to raise_error(CheetahTooManyTriesException)
+
+    end
+  end
 end
