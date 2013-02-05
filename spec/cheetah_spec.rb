@@ -59,5 +59,30 @@ describe Cheetah::Cheetah do
       @cheetah.mailing_list_email_change('foo@test.com', 'foo2@test.com')
     end
   end
+
+  context '#send_transactional_email' do
+    before do
+      options = {
+        :transactional_messenger        => Cheetah::NullMessenger,
+      }
+      @messenger  = mock(:transactional_messenger)
+      options[:transactional_messenger].stub(:new).and_return(@messenger)
+      @cheetah    = Cheetah::Cheetah.new(options)      
+    end
+
+    it 'should send a message using transactional mail api' do
+      params          = {"FNAME" => "James"}
+      params['AID']   = :foo
+      params['email'] = 'foo@test.com'
+      message         = TransactionalMessage.new(params)
+      attachments     = {'test.jpg' => '123889'}
+      
+      TransactionalMessage.should_receive(:new).with(params, attachments).and_return(message)
+      @messenger.should_receive(:send_message).with(message)
+
+      @cheetah.send_transactional_email(:foo, 'foo@test.com', {"FNAME" => "James"}, attachments)
+    end
+  end
+
 end
 

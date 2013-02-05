@@ -1,4 +1,5 @@
 require 'cheetah/message'
+require 'cheetah/transactional_message'
 require 'cheetah/exception'
 require 'cheetah/messenger/messenger'
 Dir["#{File.dirname(__FILE__)}/cheetah/messenger/*.rb"].each {|f| require f}
@@ -28,7 +29,7 @@ module Cheetah
     #   :messenger        => Cheetah::ResqueMessenger
     # }
     def initialize(options)
-      @messenger = options[:messenger].new(options)
+      @messenger = options[:messenger].new(options) if options.key? :messenger
       @transactional_messenger = options[:transactional_messenger].new(options) if options.key? :transactional_messenger
     end
 
@@ -39,10 +40,10 @@ module Cheetah
       @messenger.send_message(Message.new(path, params))
     end
 
-    def send_transactional_email(aid, email, params = {})
+    def send_transactional_email(aid, email, params = {}, attachments = {})
       params['AID'] = aid
       params['email'] = email
-      transactional_messenger.send_message(TransactionalMessage.new(params))
+      transactional_messenger.send_message(TransactionalMessage.new(params, attachments))
     end
 
     def transactional_messenger
