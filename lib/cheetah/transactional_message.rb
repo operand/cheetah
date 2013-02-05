@@ -16,7 +16,7 @@ class TransactionalMessage
   end
 
   def to_params
-    @params
+    @params.merge @attachments
   end
 
 end
