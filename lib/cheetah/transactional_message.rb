@@ -15,4 +15,8 @@ class TransactionalMessage
     @params[:email]
   end
 
+  def to_params
+    @params
+  end
+
 end

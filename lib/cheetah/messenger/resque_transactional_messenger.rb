@@ -1,6 +1,6 @@
 module Cheetah
   
-  class AsynchronousTransactionalMessenger
+  class ResqueTransactionalMessenger
 
     def send(message)
       Resque.enqueue(self.class, message.to_params)

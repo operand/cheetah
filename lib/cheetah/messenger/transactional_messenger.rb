@@ -1,5 +1,4 @@
 require 'httmultiparty'
-require 'multiparty'
 
 module Cheetah
   
@@ -12,7 +11,7 @@ module Cheetah
       {:ACTION => 'SYSTEM'}
     end
 
-    def send(message)
+    def send_message(message)
       params = {body: defaults.merge(message.to_params)}
       self.class.post("/c/sm", params)
     end
