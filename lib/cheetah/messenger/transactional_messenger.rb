@@ -20,14 +20,14 @@ module Cheetah
 
       status_codes = result["systemmail_result"]["emstatuscodes"].split(",")
 
-      raise_errors_if_required status_codes
+      raise_errors_if_detected status_codes
 
       status_codes
     end
 
     private
 
-    def raise_errors_if_required(status_codes)
+    def raise_errors_if_detected(status_codes)
       status_codes.each do |code|
         if TransactionalResponseCodes::ERROR.key? code
            raise CheetahException.new TransactionalResponseCodes::ERROR[code]
