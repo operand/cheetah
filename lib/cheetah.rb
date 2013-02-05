@@ -43,11 +43,7 @@ module Cheetah
     def send_transactional_email(aid, email, params = {}, attachments = {})
       params['AID'] = aid
       params['email'] = email
-      transactional_messenger.send_message(TransactionalMessage.new(params, attachments))
-    end
-
-    def transactional_messenger
-      @transactional_messenger ||= SynchronousTransactionalMessenger.new
+      @transactional_messenger.send_message(TransactionalMessage.new(params, attachments))
     end
 
     def mailing_list_update(email, params = {})
