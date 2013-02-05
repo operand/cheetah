@@ -10,13 +10,13 @@ describe Cheetah::SynchronousTransactionalMessenger do
     @messenger = Cheetah::SynchronousTransactionalMessenger.new(messenger_type: messenger_type)
   end
 
-  context "#send" do
+  context "#send_message" do
     it "delegates delivery to transactional messenger" do
       message = mock(:message)
 
       @transactional_messenger.should_receive(:send_message).with(message)
 
-      @messenger.send message
+      @messenger.send_message message
     end
   end
 

@@ -6,7 +6,7 @@ module Cheetah
       @messenger = options.fetch(:messenger_type, TransactionalMessenger).new
     end
 
-    def send(message)
+    def send_message(message)
       @messenger.send_message message
     end
 
