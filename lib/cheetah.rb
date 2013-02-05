@@ -29,6 +29,7 @@ module Cheetah
     # }
     def initialize(options)
       @messenger = options[:messenger].new(options)
+      @transactional_messenger = options[:transactional_messenger].new(options) if options.key? :transactional_messenger
     end
 
     def send_email(eid, email, params = {})
@@ -36,6 +37,16 @@ module Cheetah
       params['eid']   = eid
       params['email'] = email
       @messenger.send_message(Message.new(path, params))
+    end
+
+    def send_transactional_email(aid, email, params = {})
+      params['AID'] = aid
+      params['email'] = email
+      transactional_messenger.send_message(TransactionalMessage.new(params))
+    end
+
+    def transactional_messenger
+      @transactional_messenger ||= SynchronousTransactionalMessenger.new
     end
 
     def mailing_list_update(email, params = {})
