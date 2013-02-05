@@ -1,3 +1,5 @@
+require 'cheetah/transactional_response_codes'
+
 require 'httmultiparty'
 
 module Cheetah
@@ -13,8 +15,26 @@ module Cheetah
 
     def send_message(message)
       params = {body: defaults.merge(message.to_params)}
-      self.class.post("/c/sm", params)
+
+      result = self.class.post("/c/sm", params)
+
+      status_codes = result["systemmail_result"]["emstatuscodes"].split(",")
+
+      raise_errors_if_required status_codes
+
+      status_codes
     end
+
+    private
+
+    def raise_errors_if_required(status_codes)
+      status_codes.each do |code|
+        if TransactionalResponseCodes::ERROR.key? code
+           raise CheetahException.new TransactionalResponseCodes::ERROR[code]
+        end
+      end
+    end
+
   end
 
 end
