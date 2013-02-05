@@ -1,5 +1,4 @@
 require 'cheetah/message'
-require 'cheetah/transactional_message'
 require 'cheetah/exception'
 require 'cheetah/messenger/messenger'
 Dir["#{File.dirname(__FILE__)}/cheetah/messenger/*.rb"].each {|f| require f}
@@ -43,7 +42,8 @@ module Cheetah
     def send_transactional_email(aid, email, params = {}, attachments = {})
       params['AID'] = aid
       params['email'] = email
-      @transactional_messenger.send_message(TransactionalMessage.new(params, attachments))
+      params = params.merge attachments 
+      @transactional_messenger.send_message(Message.new(nil, params))
     end
 
     def mailing_list_update(email, params = {})

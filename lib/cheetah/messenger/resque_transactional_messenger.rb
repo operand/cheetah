@@ -1,4 +1,4 @@
-require 'cheetah/transactional_message'
+require 'cheetah/message'
 require 'cheetah/messenger/transactional_messenger'
 
 module Cheetah
@@ -11,15 +11,14 @@ module Cheetah
     end
 
     def send_message(message)
-      Resque.enqueue(self.class, message.to_params)
+      Resque.enqueue(self.class, message.params)
     end
 
     def self.perform(params)
       messenger = TransactionalMessenger.new
-      messenger.send_message(TransactionalMessage.new(params))
+      messenger.send_message(Message.new(nil, params))
     end
 
   end
 
 end
-

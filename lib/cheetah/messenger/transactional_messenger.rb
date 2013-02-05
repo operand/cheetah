@@ -14,7 +14,7 @@ module Cheetah
     end
 
     def send_message(message)
-      params = {body: defaults.merge(message.to_params)}
+      params = {body: defaults.merge(message.params)}
 
       result = self.class.post("/c/sm", params)
 

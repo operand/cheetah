@@ -74,10 +74,11 @@ describe Cheetah::Cheetah do
       params          = {"FNAME" => "James"}
       params['AID']   = :foo
       params['email'] = 'foo@test.com'
-      message         = TransactionalMessage.new(params)
+      message         = Message.new(nil, params)
       attachments     = {'test.jpg' => '123889'}
+      merged_params   = params.merge attachments
       
-      TransactionalMessage.should_receive(:new).with(params, attachments).and_return(message)
+      Message.should_receive(:new).with(nil, merged_params).and_return(message)
       @messenger.should_receive(:send_message).with(message)
 
       @cheetah.send_transactional_email(:foo, 'foo@test.com', {"FNAME" => "James"}, attachments)
