@@ -39,10 +39,9 @@ module Cheetah
       @messenger.send_message(Message.new(path, params))
     end
 
-    def send_transactional_email(aid, email, params = {}, attachments = {})
+    def send_transactional_email(aid, email, params = {})
       params['AID'] = aid
       params['email'] = email
-      params = params.merge attachments 
       @transactional_messenger.send_message(Message.new(nil, params))
     end
 
