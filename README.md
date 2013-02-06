@@ -45,7 +45,7 @@ Sending emails using the Cheetah mail transactional API. The event based message
     cheetah.send_email(
         67838,                # AID of template
         'test@example.com',   # message recipient
-        {FNAME: 'James', :systemmail_attachment_1 =>  File.new('attachment.pdf')}   # templates parameters and attachments
+        {FNAME: 'James', :systemmail_attachment_1 =>  File.new('attachment.pdf')}   # template's parameters and attachments
     )
 ```
 
