@@ -6,7 +6,4 @@ class Message
     @params = params
   end
 
-  def encode_attachments
-  end
-  
 end

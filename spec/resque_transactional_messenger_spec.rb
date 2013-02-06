@@ -14,7 +14,6 @@ describe Cheetah::ResqueTransactionalMessenger do
       params = {foo: 'bar'}
       message = mock(:message)
 
-      message.should_receive(:encode_attachments)
       message.should_receive(:params).and_return(params)
       Resque.should_receive(:enqueue).with(@messenger.class, params)
 
