@@ -49,7 +49,7 @@ describe Cheetah::Cheetah do
       @api = '/api/setuser1'
     end
 
-    it "should should send a message to the setuser api with the old and new emails" do
+    it "should send a message to the setuser api with the old and new emails" do
       params             = {}
       params['email']    = 'foo@test.com'
       params['newemail'] = 'foo2@test.com'
@@ -59,5 +59,6 @@ describe Cheetah::Cheetah do
       @cheetah.mailing_list_email_change('foo@test.com', 'foo2@test.com')
     end
   end
+
 end
 
