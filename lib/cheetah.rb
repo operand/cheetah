@@ -28,8 +28,7 @@ module Cheetah
     #   :messenger        => Cheetah::ResqueMessenger
     # }
     def initialize(options)
-      @messenger = options[:messenger].new(options) if options.key? :messenger
-      @transactional_messenger = options[:transactional_messenger].new if options.key? :transactional_messenger
+      @messenger = options[:messenger].new(options)
     end
 
     def send_email(eid, email, params = {})
@@ -37,12 +36,6 @@ module Cheetah
       params['eid']   = eid
       params['email'] = email
       @messenger.send_message(Message.new(path, params))
-    end
-
-    def send_transactional_email(aid, email, params = {})
-      params['AID'] = aid
-      params['email'] = email
-      @transactional_messenger.send_message(Message.new(nil, params))
     end
 
     def mailing_list_update(email, params = {})
