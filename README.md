@@ -42,7 +42,11 @@ Sending emails using the Cheetah mail transactional API. The event based message
     require 'cheetah'
 
     cheetah = Cheetah::TransactionalCheetah.new({messenger: Cheetah::SynchronousTransactionalMessenger})
-    cheetah.send_email(67838, 'test@example.com', {FNAME: 'James', :systemmail_attachment_1 =>  File.new('attachment.pdf')})
+    cheetah.send_email(
+        67838,                # AID of template
+        'test@example.com',   # message recipient
+        {FNAME: 'James', :systemmail_attachment_1 =>  File.new('attachment.pdf')}   # templates parameters and attachments
+    )
 ```
 
 To send messages asynchronously using the Cheetah mail transactional API use the *ResqueTransactionalMessenger*
