@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 require 'spec_helper'
 
 describe Cheetah::SynchronousTransactionalMessenger do
@@ -10,7 +12,7 @@ describe Cheetah::SynchronousTransactionalMessenger do
   end
 
   context "#send_message" do
-    it "delegates delivery to transactional messenger" do
+    it "should delegate delivery to transactional messenger" do
       message = mock(:message)
 
       @transactional_messenger.should_receive(:send_message).with(message)
@@ -18,5 +20,5 @@ describe Cheetah::SynchronousTransactionalMessenger do
       @messenger.send_message message
     end
   end
-
+  
 end

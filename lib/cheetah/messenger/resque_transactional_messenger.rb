@@ -7,7 +7,7 @@ module Cheetah
 
     @queue = :cheetah
 
-    def initialize(options)
+    def initialize(options = {})
     end
 
     def send_message(message)

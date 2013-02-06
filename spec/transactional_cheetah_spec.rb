@@ -20,7 +20,7 @@ describe Cheetah::TransactionalCheetah do
   end
 
   context '#send_transactional_email' do
-    it 'should send a message using transactional mail api' do
+    it 'should send a message using transactional api' do
       params = {"FNAME" => "James"}
       params['AID'] = :foo
       params['email'] = 'foo@test.com'

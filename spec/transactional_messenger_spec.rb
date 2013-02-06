@@ -7,7 +7,7 @@ describe Cheetah::TransactionalMessenger do
   end
 
   context "#send_message" do
-    it "should post parameters cheetahmail endpoints" do
+    it "should post parameters to cheetahmail endpoints" do
       params = {foo: 'bar'}
       expected_params = {body: {:ACTION => "SYSTEM"}}
       expected_params[:body].merge! params
@@ -23,7 +23,7 @@ describe Cheetah::TransactionalMessenger do
       @messenger.send_message(@message)
     end
 
-    it "should raise an exception for status code indicating errors" do
+    it "should raise an exception for status codes indicating errors" do
       params = {foo: 'bar'}
       expected_params = {body: {:ACTION => "SYSTEM"}}
       expected_params[:body].merge! params

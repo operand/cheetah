@@ -10,7 +10,7 @@ describe Cheetah::ResqueTransactionalMessenger do
   end
 
   context "#send_message" do
-    it "queues message for delivery" do
+    it "should queue message for delivery" do
       params = {foo: 'bar'}
       message = mock(:message)
 
@@ -22,7 +22,7 @@ describe Cheetah::ResqueTransactionalMessenger do
   end
 
   context "#perform" do
-    it "recompose and deliver message" do
+    it "should recompose and deliver message" do
       params = {foo: 'bar'}
       messenger = mock(:messenger)
       message = mock(:message)

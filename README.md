@@ -3,21 +3,22 @@ Sorry for not much documentation. I have to work on that...
 But basically you create a Cheetah instance like so:
 
 
+```ruby
     cheetah = Cheetah::Cheetah.new({
       :host             => 'ebm.cheetahmail.com',
       :username         => 'foo_api_user',
       :password         => '12345',
       :aid              => '67890',                  # the 'affiliate id'
       :whitelist_filter => //,                       # if set, emails will only be sent to addresses which match this pattern
-      :enable_send_not_deployed   => true,                     # if
-true, non-deployed emails can be set (default is false)
+      :enable_send_not_deployed   => true,           # if true, non-deployed emails can be set (default is false)
       :messenger        => Cheetah::ResqueMessenger
     })
-
+```
 
 ,and then there are three methods you need to know about:
 
 
+```ruby
     cheetah.send_email(
       eid,    # cheetahmail's EID for the event triggered email
       email,
@@ -33,9 +34,9 @@ true, non-deployed emails can be set (default is false)
       oldemail,
       newemail
     )
+```
 
-
-Sending email using the Cheetah mail transactional API
+Sending emails using the Cheetah mail transactional API. The event based message API does not support attachments. If your messages requires an attachments you will need to use the transactional API.
 
 ```ruby
     require 'cheetah'
