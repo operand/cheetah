@@ -2,7 +2,7 @@ module Cheetah
   
   class SynchronousTransactionalMessenger
 
-    def initialize
+    def initialize(options)
       @messenger = TransactionalMessenger.new
     end
 
