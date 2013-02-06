@@ -24,11 +24,12 @@ module Cheetah
     #   :password         => '12345'
     #   :aid              => '67890'                  # the 'affiliate id'
     #   :whitelist_filter => //                       # if set, emails will only be sent to addresses which match this pattern
-    #   :enable_tracking  => true                     # determines whether cheetahmail will track the sending of emails for analytics purposes
+    #   :enable_send_not_deployed  => true            # if true, non-deployed emails can be set (default is false)
     #   :messenger        => Cheetah::ResqueMessenger
     # }
     def initialize(options)
-      @messenger = options[:messenger].new(options)
+      @messenger = options[:messenger].new(options) if options.key? :messenger
+      @transactional_messenger = options[:transactional_messenger].new if options.key? :transactional_messenger
     end
 
     def send_email(eid, email, params = {})
@@ -36,6 +37,12 @@ module Cheetah
       params['eid']   = eid
       params['email'] = email
       @messenger.send_message(Message.new(path, params))
+    end
+
+    def send_transactional_email(aid, email, params = {})
+      params['AID'] = aid
+      params['email'] = email
+      @transactional_messenger.send_message(Message.new(nil, params))
     end
 
     def mailing_list_update(email, params = {})

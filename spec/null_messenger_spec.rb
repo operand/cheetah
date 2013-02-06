@@ -11,7 +11,6 @@ describe Cheetah::NullMessenger do
         :password         => "foo",
         :aid              => "123",
         :whitelist_filter => /@test\.com$/,
-        :enable_tracking  => false,
       })
       @messenger.do_send(Message.new("/",{}))
     end

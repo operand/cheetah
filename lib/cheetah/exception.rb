@@ -12,3 +12,6 @@ end
 
 class CheetahPermanentException < CheetahMessagingException
 end
+
+class CheetahTooManyTriesException < CheetahMessagingException
+end

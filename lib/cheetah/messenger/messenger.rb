@@ -5,8 +5,11 @@ require 'uri'
 module Cheetah
   class Messenger
 
+    MAXIMUM_REQUEST_TRIES = 3
+
     def initialize(options)
-      @options  = options
+      @options  = {}
+      options.each { |key, value| @options[key.to_sym] = value }
       @cookie   = nil
     end
 
@@ -15,7 +18,7 @@ module Cheetah
     # false if it was suppressed
     def send_message(message)
       if !@options[:whitelist_filter] or message.params['email'] =~ @options[:whitelist_filter]
-        message.params['test'] = "1" unless @options[:enable_tracking]
+        message.params['test'] = "1" if @options[:enable_send_not_deployed]
         do_send(message) # implemented by the subclass
         true
       else
@@ -25,6 +28,7 @@ module Cheetah
 
     # handles sending the request and processing any exceptions
     def do_request(message)
+      tries = 1
       begin
         login unless @cookie
         initheader = {'Cookie' => @cookie || ''}
@@ -34,7 +38,9 @@ module Cheetah
         # it may be that the cookie is stale. clear it and immediately retry. 
         # if it hits another authorization exception in the login function then it will come back as a permanent exception
         @cookie = nil
-        retry
+        tries += 1
+        retry if tries <= MAXIMUM_REQUEST_TRIES
+        raise CheetahTooManyTriesException
       end
     end
 

@@ -5,4 +5,5 @@ class Message
     @path   = path
     @params = params
   end
+
 end
