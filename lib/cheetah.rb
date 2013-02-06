@@ -29,7 +29,7 @@ module Cheetah
     # }
     def initialize(options)
       @messenger = options[:messenger].new(options) if options.key? :messenger
-      @transactional_messenger = options[:transactional_messenger].new(options) if options.key? :transactional_messenger
+      @transactional_messenger = options[:transactional_messenger].new if options.key? :transactional_messenger
     end
 
     def send_email(eid, email, params = {})

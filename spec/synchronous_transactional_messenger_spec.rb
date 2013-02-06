@@ -4,10 +4,9 @@ describe Cheetah::SynchronousTransactionalMessenger do
   
   before do
     @transactional_messenger = mock(:transactional_messenger)
-    messenger_type = Cheetah::TransactionalMessenger
-    messenger_type.stub(:new).and_return(@transactional_messenger)
+    Cheetah::TransactionalMessenger.stub(:new).and_return(@transactional_messenger)
  
-    @messenger = Cheetah::SynchronousTransactionalMessenger.new(messenger_type: messenger_type)
+    @messenger = Cheetah::SynchronousTransactionalMessenger.new 
   end
 
   context "#send_message" do

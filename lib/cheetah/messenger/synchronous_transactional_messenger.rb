@@ -2,8 +2,8 @@ module Cheetah
   
   class SynchronousTransactionalMessenger
 
-    def initialize(options = {})
-      @messenger = options.fetch(:messenger_type, TransactionalMessenger).new
+    def initialize
+      @messenger = TransactionalMessenger.new
     end
 
     def send_message(message)

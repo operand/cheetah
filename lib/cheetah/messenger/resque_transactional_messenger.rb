@@ -7,9 +7,6 @@ module Cheetah
 
     @queue = :cheetah
 
-    def initialize(options = {})
-    end
-
     def send_message(message)
       Resque.enqueue(self.class, message.params)
     end
