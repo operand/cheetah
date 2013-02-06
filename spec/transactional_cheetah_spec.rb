@@ -10,6 +10,15 @@ describe Cheetah::TransactionalCheetah do
     @cheetah = Cheetah::TransactionalCheetah.new(options)
   end
 
+  context '#initialize' do
+    it 'should create a Messenger object' do
+      Cheetah::TransactionalCheetah.new(messenger: Cheetah::NullMessenger)
+    end
+    it 'should require a :messenger parameter' do
+      expect { Cheetah::TransactionalCheetah.new({}) }.should raise_error(NoMethodError)
+    end
+  end
+
   context '#send_transactional_email' do
     it 'should send a message using transactional mail api' do
       params = {"FNAME" => "James"}

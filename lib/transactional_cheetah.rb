@@ -7,7 +7,7 @@ module Cheetah
   class TransactionalCheetah
 
     def initialize(options)
-      @messenger = options[:messenger].new 
+      @messenger = options[:messenger].new(options)
     end
 
     def send_email(aid, email, params = {})
