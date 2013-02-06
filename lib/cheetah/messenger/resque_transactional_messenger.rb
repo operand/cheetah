@@ -8,6 +8,7 @@ module Cheetah
     @queue = :cheetah
 
     def send_message(message)
+      message.encode_attachments
       Resque.enqueue(self.class, message.params)
     end
 

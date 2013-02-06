@@ -5,4 +5,8 @@ class Message
     @path   = path
     @params = params
   end
+
+  def encode_attachments
+  end
+  
 end
