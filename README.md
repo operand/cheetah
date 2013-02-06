@@ -38,7 +38,7 @@ true, non-deployed emails can be set (default is false)
 Sending email using the Cheetah mail transactional API
 
 ```ruby
-    require 'transactional_cheetah'
+    require 'cheetah'
 
     cheetah = Cheetah::TransactionalCheetah.new({messenger: Cheetah::SynchronousTransactionalMessenger})
     cheetah.send_email(67838, 'test@example.com', {FNAME: 'James', :systemmail_attachment_1 =>  File.new('attachment.pdf')})
