@@ -1,5 +1,4 @@
 require 'cheetah'
-require 'transactional_cheetah'
 require 'net/http'
 
 # blocks http requests and throws an exception
