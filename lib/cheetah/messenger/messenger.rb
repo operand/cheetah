@@ -35,7 +35,7 @@ module Cheetah
         message.params['aid'] = @options[:aid]
         resp = do_post(message.path, message.params, initheader)
       rescue CheetahAuthorizationException => e
-        # it may be that the cookie is stale. clear it and immediately retry. 
+        # it may be that the cookie is stale. clear it and immediately retry.
         # if it hits another authorization exception in the login function then it will come back as a permanent exception
         @cookie = nil
         tries += 1
@@ -59,9 +59,15 @@ module Cheetah
       raise CheetahPermanentException,     "failure:'#{path}?#{data}', HTTP error: #{resp.code}"            if resp.code =~ /[^2]../
       raise CheetahAuthorizationException, "failure:'#{path}?#{data}', Cheetah error: #{resp.body.strip}"   if resp.body =~ /^err:auth/
       raise CheetahTemporaryException,     "failure:'#{path}?#{data}', Cheetah error: #{resp.body.strip}"   if resp.body =~ /^err:internal error/
-      raise CheetahPermanentException,     "failure:'#{path}?#{data}', Cheetah error: #{resp.body.strip}"   if resp.body =~ /^err/
-                                                                                                            
-      resp                                                                                                  
+      if resp.body =~ /^err:email:illegal/
+        # Illegal email errors are being thrown away to prevent unnecessary
+        # DevOps calls. These should be printed in a log before going live
+        puts "CheetahMail failure:'#{path}?#{data}', Cheetah error: #{resp.body.strip}"
+      elsif resp.body =~ /^err/
+        raise CheetahPermanentException,     "failure:'#{path}?#{data}', Cheetah error: #{resp.body.strip}"   if resp.body =~ /^err/
+      end
+
+      resp
     end
 
     # sets the instance @cookie variable
