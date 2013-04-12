@@ -14,7 +14,25 @@ describe Cheetah::ResqueMessenger do
     @message   = Message.new("/",{})
   end
 
+  context 'resque-retry' do
+    before(:each) do
+      @clazz = Cheetah::ResqueMessenger
+    end
+    it 'should retry 4 times' do
+      @clazz.instance_variable_get(:@retry_limit).should == 4
+    end
+    it 'should wait 60 seconds in between attempts' do
+      @clazz.instance_variable_get(:@retry_delay).should == 60
+    end
+    it 'should retry the Timeout::Error' do
+      @clazz.instance_variable_get(:@retry_exceptions).should == [Timeout::Error]
+    end
+  end
+
   describe '#do_send' do
+    it 'should use the cheetah queue' do
+      Cheetah::ResqueMessenger.instance_variable_get(:@queue).should == :cheetah
+    end
     it 'should queue up a job in resque' do
       Resque.should_receive(:enqueue).with(Cheetah::ResqueMessenger, @message, @options)
       @messenger.do_send(@message)

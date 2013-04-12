@@ -1,11 +1,14 @@
-require 'cheetah/message'
-require 'cheetah/messenger/transactional_messenger'
+require 'resque-retry'
 
 module Cheetah
 
   class ResqueTransactionalMessenger
+    extend Resque::Plugins::Retry
 
     @queue = :cheetah
+    @retry_limit = 4
+    @retry_delay = 60
+    @retry_exceptions = [Timeout::Error]
 
     def initialize(options = {})
     end
@@ -54,14 +57,14 @@ module Cheetah
         }
       else
         raise UnsupportedAttachmentTypeError,
-              "#{attachment.class} is not a supported attachment type. Please use a File or UploadIO object."
+          "#{attachment.class} is not a supported attachment type. Please use a File or UploadIO object."
       end
     end
 
     def self.deserialize_attachment(params)
       UploadIO.new StringIO.new(Base64.decode64(params['body'])),
-                   params['content_type'],
-                   params['original_filename']
+        params['content_type'],
+        params['original_filename']
     end
 
     class UnsupportedAttachmentTypeError < StandardError; end

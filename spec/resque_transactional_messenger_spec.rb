@@ -9,7 +9,25 @@ describe Cheetah::ResqueTransactionalMessenger do
     @messenger = Cheetah::ResqueTransactionalMessenger.new
   end
 
+  context 'resque-retry' do
+    before(:each) do
+      @clazz = Cheetah::ResqueTransactionalMessenger
+    end
+    it 'should retry 4 times' do
+      @clazz.instance_variable_get(:@retry_limit).should == 4
+    end
+    it 'should wait 60 seconds in between attempts' do
+      @clazz.instance_variable_get(:@retry_delay).should == 60
+    end
+    it 'should retry the Timeout::Error' do
+      @clazz.instance_variable_get(:@retry_exceptions).should == [Timeout::Error]
+    end
+  end
+
   context "#send_message" do
+    it 'should use the cheetah queue' do
+      Cheetah::ResqueTransactionalMessenger.instance_variable_get(:@queue).should == :cheetah
+    end
     it "should queue message for delivery" do
       params = {foo: 'bar'}
       message = mock :message, params: params

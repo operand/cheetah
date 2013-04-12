@@ -1,5 +1,4 @@
 require 'cheetah'
-require 'net/http'
 
 # blocks http requests and throws an exception
 require 'fakeweb'

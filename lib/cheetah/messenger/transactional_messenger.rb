@@ -1,9 +1,7 @@
-require 'cheetah/transactional_response_codes'
-
 require 'httmultiparty'
 
 module Cheetah
-  
+
   class TransactionalMessenger
     include HTTMultiParty
 

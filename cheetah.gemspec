@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'fakeweb'
 
   s.add_runtime_dependency 'resque'
+  s.add_runtime_dependency 'resque-retry'
   s.add_runtime_dependency 'httmultiparty'
 
   if RUBY_VERSION < "1.9"

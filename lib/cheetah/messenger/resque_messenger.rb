@@ -1,9 +1,14 @@
-require 'resque'
+require 'resque-retry'
 
 module Cheetah
   # this is both extends Messenger and implements the Resque worker interface
   class ResqueMessenger < Messenger
+    extend Resque::Plugins::Retry
+
     @queue = :cheetah
+    @retry_limit = 4
+    @retry_delay = 60
+    @retry_exceptions = [Timeout::Error]
 
     def do_send(message)
       Resque.enqueue(self.class, message, @options)
