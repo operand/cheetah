@@ -19,13 +19,13 @@ describe Cheetah::ResqueMessenger do
       @clazz = Cheetah::ResqueMessenger
     end
     it 'should retry 4 times' do
-      @clazz.instance_variable_get(:@retry_limit).should == 4
+      @clazz.retry_limit.should == 4
     end
     it 'should wait 60 seconds in between attempts' do
-      @clazz.instance_variable_get(:@retry_delay).should == 60
+      @clazz.retry_delay.should == 60
     end
     it 'should retry the Timeout::Error' do
-      @clazz.instance_variable_get(:@retry_exceptions).should == [Timeout::Error]
+      @clazz.retry_exceptions.should == [Timeout::Error]
     end
   end
 
