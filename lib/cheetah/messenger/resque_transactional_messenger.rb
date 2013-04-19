@@ -3,11 +3,10 @@ require 'resque-retry'
 module Cheetah
 
   class ResqueTransactionalMessenger
-    extend Resque::Plugins::Retry
+    extend Resque::Plugins::ExponentialBackoff
 
     @queue = :cheetah
-    @retry_limit = 4
-    @retry_delay = 60
+    @backoff_strategy = [0, 60, 600, 1800, 3600]
     @retry_exceptions = [Timeout::Error]
 
     def initialize(options = {})

@@ -13,11 +13,8 @@ describe Cheetah::ResqueTransactionalMessenger do
     before(:each) do
       @clazz = Cheetah::ResqueTransactionalMessenger
     end
-    it 'should retry 4 times' do
-      @clazz.retry_limit.should == 4
-    end
-    it 'should wait 60 seconds in between attempts' do
-      @clazz.retry_delay.should == 60
+    it 'should set the backoff strategy' do
+      @clazz.backoff_strategy.should == [0, 60, 600, 1800, 3600]
     end
     it 'should retry the Timeout::Error' do
       @clazz.retry_exceptions.should == [Timeout::Error]
