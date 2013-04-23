@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cheetah (0.0.9)
+    cheetah (0.0.11)
       httmultiparty
       resque
       resque-retry

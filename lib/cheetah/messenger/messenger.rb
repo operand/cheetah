@@ -51,7 +51,7 @@ module Cheetah
       http              = Net::HTTP.new(@options[:host], 443)
       http.read_timeout = 5
       http.use_ssl      = true
-      http.verify_mode  = OpenSSL::SSL::VERIFY_PEER
+      http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
       data              = params.to_a.map { |a| "#{a[0]}=#{a[1]}" }.join("&")
       resp              = http.post(path, data, initheader)
 
