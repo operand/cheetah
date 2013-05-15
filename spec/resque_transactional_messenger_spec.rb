@@ -17,7 +17,7 @@ describe Cheetah::ResqueTransactionalMessenger do
       @clazz.backoff_strategy.should == [0, 60, 600, 1800, 3600]
     end
     it 'should retry the Timeout::Error' do
-      @clazz.retry_exceptions.should == [Timeout::Error]
+      @clazz.retry_exceptions.should == [Timeout::Error,CheetahSystemMaintenanceException]
     end
   end
 

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cheetah (0.0.11)
+    cheetah (0.0.12)
       httmultiparty
       resque
       resque-retry
@@ -73,6 +73,7 @@ GEM
       rack-protection (~> 1.4)
       tilt (~> 1.3, >= 1.3.4)
     tilt (1.3.7)
+    timecop (0.6.1)
     tzinfo (0.3.37)
     vegas (0.1.11)
       rack (>= 1.0.0)
@@ -88,3 +89,4 @@ DEPENDENCIES
   json
   rspec
   ruby-debug
+  timecop

@@ -1,6 +1,9 @@
 class CheetahException < Exception
 end
 
+class CheetahSystemMaintenanceException < CheetahException
+end
+
 class CheetahMessagingException < CheetahException
 end
 

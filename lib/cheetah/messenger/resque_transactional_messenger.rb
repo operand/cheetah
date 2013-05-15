@@ -7,7 +7,7 @@ module Cheetah
 
     @queue = :cheetah
     @backoff_strategy = [0, 60, 600, 1800, 3600]
-    @retry_exceptions = [Timeout::Error]
+    @retry_exceptions = [Timeout::Error, CheetahSystemMaintenanceException]
 
     def initialize(options = {})
     end
