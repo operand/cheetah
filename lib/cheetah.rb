@@ -1,5 +1,6 @@
 require 'cheetah/message'
 require 'cheetah/exception'
+require 'cheetah/messenger/logger'
 require 'cheetah/messenger/messenger'
 require 'cheetah/transactional_cheetah'
 require 'cheetah/transactional_response_codes'
