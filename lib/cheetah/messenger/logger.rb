@@ -24,7 +24,7 @@ module Cheetah
 
     def logger
       @logger ||= (
-        logger = ::Logger.new(self.logger_out)
+        logger = ::Logger.new(self.log_file)
         logger.formatter = LogFormatter.new
         logger
       )

@@ -10,7 +10,7 @@ describe Cheetah::Logger do
       @cheetah_logger = CheetahLogger.new
     end
     it 'should create a logger and cache it' do
-      CheetahLogger.any_instance.should_receive(:logger_out).and_return '/tmp/log.txt'
+      CheetahLogger.any_instance.should_receive(:log_file).and_return '/tmp/log.txt'
       ::Logger.should_receive(:new).with('/tmp/log.txt').and_return stub(:'formatter=' => true)
       @cheetah_logger.logger
       @cheetah_logger.logger
