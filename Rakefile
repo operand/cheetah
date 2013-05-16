@@ -7,3 +7,8 @@ task 'resque:setup' => :environment
 task :environment do
   require 'cheetah'
 end
+
+
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec)
+task :default => :spec

@@ -1,7 +1,7 @@
 require 'cheetah'
-require 'net/http'
 
 # blocks http requests and throws an exception
+require 'timecop'
 require 'fakeweb'
 FakeWeb.allow_net_connect = false
 

@@ -1,6 +1,10 @@
 require 'cheetah/message'
 require 'cheetah/exception'
+require 'cheetah/messenger/logger'
 require 'cheetah/messenger/messenger'
+require 'cheetah/transactional_cheetah'
+require 'cheetah/transactional_response_codes'
+
 Dir["#{File.dirname(__FILE__)}/cheetah/messenger/*.rb"].each {|f| require f}
 
 module Cheetah
@@ -24,7 +28,7 @@ module Cheetah
     #   :password         => '12345'
     #   :aid              => '67890'                  # the 'affiliate id'
     #   :whitelist_filter => //                       # if set, emails will only be sent to addresses which match this pattern
-    #   :enable_tracking  => true                     # determines whether cheetahmail will track the sending of emails for analytics purposes
+    #   :enable_send_not_deployed  => true            # if true, non-deployed emails can be set (default is false)
     #   :messenger        => Cheetah::ResqueMessenger
     # }
     def initialize(options)

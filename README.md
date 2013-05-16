@@ -3,20 +3,22 @@ Sorry for not much documentation. I have to work on that...
 But basically you create a Cheetah instance like so:
 
 
+```ruby
     cheetah = Cheetah::Cheetah.new({
       :host             => 'ebm.cheetahmail.com',
       :username         => 'foo_api_user',
       :password         => '12345',
       :aid              => '67890',                  # the 'affiliate id'
       :whitelist_filter => //,                       # if set, emails will only be sent to addresses which match this pattern
-      :enable_tracking  => true,                     # determines whether cheetahmail will track the sending of emails for analytics purposes
+      :enable_send_not_deployed   => true,           # if true, non-deployed emails can be set (default is false)
       :messenger        => Cheetah::ResqueMessenger
     })
-
+```
 
 ,and then there are three methods you need to know about:
 
 
+```ruby
     cheetah.send_email(
       eid,    # cheetahmail's EID for the event triggered email
       email,
@@ -32,3 +34,23 @@ But basically you create a Cheetah instance like so:
       oldemail,
       newemail
     )
+```
+
+Sending emails using the Cheetah mail transactional API. The event based message API does not support attachments. If your messages requires an attachments you will need to use the transactional API.
+
+```ruby
+    require 'cheetah'
+
+    cheetah = Cheetah::TransactionalCheetah.new({messenger: Cheetah::SynchronousTransactionalMessenger})
+    cheetah.send_email(
+        67838,                # AID of template
+        'test@example.com',   # message recipient
+        {FNAME: 'James', :systemmail_attachment_1 =>  File.new('attachment.pdf')}   # template's parameters and attachments
+    )
+```
+
+To send messages asynchronously using the Cheetah mail transactional API use the *ResqueTransactionalMessenger*
+
+```ruby
+    cheetah = Cheetah::TransactionalCheetah.new({messenger: Cheetah::ResqueTransactionalMessenger})
+```

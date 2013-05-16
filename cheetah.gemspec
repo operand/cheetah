@@ -21,7 +21,13 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'fakeweb'
+  s.add_development_dependency 'timecop'
 
   s.add_runtime_dependency 'resque'
-  s.add_runtime_dependency 'system_timer'
+  s.add_runtime_dependency 'resque-retry'
+  s.add_runtime_dependency 'httmultiparty'
+
+  if RUBY_VERSION < "1.9"
+    s.add_runtime_dependency 'system_timer'
+  end
 end
