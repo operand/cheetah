@@ -8,7 +8,6 @@ describe Cheetah::SynchronousMessenger do
       :username         => "foo_user",
       :password         => "foo",
       :aid              => "123",
-      :enable_tracking  => false,
     }
     @messenger = Cheetah::SynchronousMessenger.new(@options)
     stub_http
@@ -91,9 +90,9 @@ describe Cheetah::SynchronousMessenger do
           @messenger.send_message(@message)
         end
 
-        context "with :enable_tracking set to true" do
+        context "with :enable_send_not_deployed set to true" do
           before do
-            @options[:enable_tracking] = true
+            @options[:enable_send_not_deployed] = false
             @messenger = Cheetah::SynchronousMessenger.new(@options)
           end
 
@@ -103,9 +102,9 @@ describe Cheetah::SynchronousMessenger do
           end
         end
 
-        context "with :enable_tracking set to false" do
+        context "with :enable_send_not_deployed set to false" do
           before do
-            @options[:enable_tracking] = false
+            @options[:enable_send_not_deployed] = true
             @messenger = Cheetah::SynchronousMessenger.new(@options)
           end
 
@@ -116,6 +115,14 @@ describe Cheetah::SynchronousMessenger do
           end
         end
       end
+    end
+  end
+
+  describe '#do_request' do
+    it 'should only allow three tries before failing' do
+      @messenger.instance_variable_set(:@cookie, nil)
+      @messenger.should_receive(:login).exactly(3).times.and_raise(CheetahAuthorizationException)
+      expect { @messenger.do_request(@message_hash) }.to raise_error(CheetahTooManyTriesException)
     end
   end
 end

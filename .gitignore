@@ -3,3 +3,5 @@
 pkg/*
 *.swp
 .rvmrc
+tags
+.idea
