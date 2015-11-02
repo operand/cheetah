@@ -10,7 +10,6 @@ GEM
   remote: http://rubygems.org/
   remote: http://gems.github.com/
   specs:
-    ZenTest (4.6.2)
     columnize (0.3.6)
     debugger (1.5.0)
       columnize (>= 0.3.1)
@@ -82,7 +81,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  ZenTest
   cheetah!
   debugger
   fakeweb
@@ -90,3 +88,6 @@ DEPENDENCIES
   rspec
   ruby-debug
   timecop
+
+BUNDLED WITH
+   1.10.6

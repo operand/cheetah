@@ -11,5 +11,4 @@ end
 
 group :test do
   gem 'json'
-  gem 'ZenTest'
 end
