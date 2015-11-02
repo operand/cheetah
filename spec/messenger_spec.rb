@@ -43,6 +43,10 @@ describe Cheetah::Messenger do
         Net::HTTP.any_instance.should_receive(:verify_mode=).with(OpenSSL::SSL::VERIFY_NONE)
         @messenger.send :do_post, '/test_path', eid: 1
       end
+      it 'should escape special characters' do
+        Net::HTTP.any_instance.should_receive(:post).with('/test_path', 'invalid_ascii=%C2%A3', nil).and_return(stub(code: :ok, body: :ok))
+        @messenger.send :do_post, '/test_path', { invalid_ascii: '£' }
+      end
     end
 
     it 'should login and send a message' do
